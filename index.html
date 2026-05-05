@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>THE ARENA | ELITE EDITION</title>
+    <title>THE ARENA | ULTIMATE TRIPLE</title>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;600;800&family=Secular+One&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg: #050010;
-            --panel: rgba(30, 15, 65, 0.8);
+            --panel: rgba(30, 15, 65, 0.85);
             --gold: #ffcc00;
-            --gold-glow: 0 0 25px rgba(255, 204, 0, 0.6);
+            --gold-glow: 0 0 25px rgba(255, 204, 0, 0.7);
             --pink: #ff007a;
             --pink-glow: 0 0 30px rgba(255, 0, 122, 0.8);
             --blue: #00d4ff;
+            --blue-glow: 0 0 25px rgba(0, 212, 255, 0.7);
             --white: #ffffff;
         }
 
@@ -24,42 +25,49 @@
             background-image: radial-gradient(circle at 50% 0%, #1a0b3d 0%, var(--bg) 100%);
             color: #fff; margin: 0; padding: 0; min-height: 100vh;
             display: flex; justify-content: center; overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .app { width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box; }
 
-        .screen { display: none; flex-direction: column; animation: fadeIn 0.3s ease; }
+        .screen { display: none; flex-direction: column; animation: fadeIn 0.4s ease-out; }
         .active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
 
-        header { text-align: center; margin-bottom: 35px; }
+        header { text-align: center; margin-bottom: 35px; padding-top: 10px; }
         header h1 { 
             font-family: 'Secular One', sans-serif; font-size: 55px; margin: 0; 
             background: linear-gradient(to bottom, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.7)); 
+            filter: drop-shadow(var(--gold-glow)); 
         }
-        header p { color: var(--blue); font-weight: 800; font-size: 14px; letter-spacing: 2px; text-shadow: 0 0 10px var(--blue); }
+        header p { color: var(--blue); font-weight: 800; font-size: 14px; letter-spacing: 3px; text-shadow: 0 0 10px var(--blue); margin-top: -5px; }
 
+        /* Main Menu Buttons */
         .main-btn {
-            background: rgba(255, 255, 255, 0.03); border: 2px solid var(--gold); border-radius: 25px;
-            color: white; padding: 30px; font-size: 26px; font-weight: 800;
-            cursor: pointer; margin-bottom: 25px; text-align: center;
+            background: rgba(255, 255, 255, 0.04); border: 2px solid var(--gold); border-radius: 25px;
+            color: white; padding: 25px 20px; font-size: 24px; font-weight: 800;
+            cursor: pointer; margin-bottom: 20px; text-align: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 0 15px var(--gold-glow); transition: 0.3s;
         }
-        .main-btn:active { transform: scale(0.96); border-color: var(--pink); box-shadow: 0 0 40px var(--pink-glow); }
-        .main-btn span { display: block; font-size: 13px; color: var(--blue); margin-top: 8px; font-weight: 400; }
+        .main-btn.daily { border-color: var(--pink); box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 0 15px var(--pink-glow); }
+        .main-btn.special { border-color: var(--blue); box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 0 15px var(--blue-glow); }
+        
+        .main-btn:active { transform: scale(0.96); opacity: 0.8; }
+        .main-btn span { display: block; font-size: 13px; color: #aaa; margin-top: 8px; font-weight: 400; letter-spacing: 1px; }
 
+        /* Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding-bottom: 100px; }
         .prize-card {
-            background: var(--panel); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            background: var(--panel); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.15); border-radius: 22px;
             padding: 20px; text-align: center; cursor: pointer; transition: 0.2s;
             box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
         .prize-card:active { border-color: var(--pink); box-shadow: var(--pink-glow); transform: translateY(-3px); }
-        .p-icon { font-size: 38px; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--white)); }
+        .p-icon { font-size: 40px; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
         .p-name { font-size: 14px; font-weight: 700; color: var(--gold); text-shadow: 0 2px 5px #000; }
 
+        /* Results */
         .result-card {
             background: linear-gradient(135deg, #1a0b3d, #050010);
             border: 5px solid var(--gold); border-radius: 40px;
@@ -71,7 +79,7 @@
             border: none; padding: 22px; border-radius: 60px; font-weight: 800; font-size: 20px; 
             width: 100%; margin-top: 25px; box-shadow: 0 0 30px var(--blue); 
         }
-        .back-link { text-align: center; margin-top: 35px; color: #aaa; cursor: pointer; text-decoration: underline; font-weight: 600; padding: 15px; font-size: 16px; }
+        .back-link { text-align: center; margin-top: 35px; color: #bbb; cursor: pointer; text-decoration: underline; font-weight: 600; padding: 15px; font-size: 17px; }
     </style>
 </head>
 <body>
@@ -79,23 +87,24 @@
 <div class="app">
     <div id="home" class="screen active">
         <header><p>CHAMPIONS ARENA</p><h1>THE GAME</h1></header>
-        <div class="main-btn" onclick="showWeeklySelection()">🏆 יעד שבועי גדול<span>הפרס שמונח על הכף בסוף השבוע</span></div>
-        <div class="main-btn" style="border-color: var(--pink); box-shadow: inset 0 0 15px var(--pink-glow);" onclick="revealDaily()">🎁 הטיזר היומי<span>למנצח היומי (רנדומלי)</span></div>
-        <div style="text-align: center; opacity: 0.6; font-size: 12px; line-height: 1.5;">המנצח קובע. המפסיד מבצע.</div>
+        <div class="main-btn" onclick="showWeeklySelection()">🏆 יעד שבועי גדול<span>כל 60 הפרסים והפנטזיות</span></div>
+        <div class="main-btn daily" onclick="revealDaily('all')">🔥 הטיזר היומי<span>פינוקים חמים ודיבורים</span></div>
+        <div class="main-btn special" onclick="revealDaily('clean')">✨ טיזר יומי מיוחד<span>בלי מגע / עירום / פורנו</span></div>
+        <div style="text-align: center; opacity: 0.6; font-size: 12px; line-height: 1.6; margin-top: 20px;">המנצח קובע. המפסיד מבצע.</div>
     </div>
 
-    <div id="weekly-select" class="screen">
-        <header><h1>הפרס הגדול</h1><p>על מה נלחמים השבוע?</p></header>
-        <div class="grid" id="weekly-grid"></div>
-        <div class="back-link" onclick="switchScreen('weekly-select', 'home')">חזרה לתפריט הראשי</div>
+    <div id="list-screen" class="screen">
+        <header><h1 id="list-title">הפרסים</h1><p id="list-subtitle">בחר את גורלך</p></header>
+        <div class="grid" id="main-grid"></div>
+        <div class="back-link" onclick="goToHome()">חזרה לתפריט הראשי</div>
     </div>
 
     <div id="share-screen" class="screen">
         <div id="capture-area" class="result-card">
-            <div style="color: var(--pink); font-weight: 800; letter-spacing: 2px; font-size: 12px; text-shadow: 0 0 10px var(--pink);">MATCH PREVIEW</div>
-            <div id="res-icon" style="font-size: 90px; margin: 25px 0; filter: drop-shadow(0 0 15px #fff);"></div>
+            <div id="res-label" style="color: var(--pink); font-weight: 800; letter-spacing: 2px; font-size: 12px; text-shadow: 0 0 10px var(--pink);">MATCH PREVIEW</div>
+            <div id="res-icon" style="font-size: 95px; margin: 25px 0; filter: drop-shadow(0 0 15px #fff);"></div>
             <div id="res-title" style="font-size: 32px; font-weight: 800; color: var(--gold); text-shadow: 0 2px 15px #000;"></div>
-            <p id="res-desc" style="font-style: italic; opacity: 0.9; line-height: 1.6; padding: 0 10px; font-size: 17px;"></p>
+            <p id="res-desc" style="font-style: italic; opacity: 0.9; line-height: 1.6; padding: 0 15px; font-size: 18px;"></p>
             <div style="margin-top: 35px; border-top: 2px solid rgba(255,255,255,0.1); padding-top: 20px; font-weight: 800; color: var(--blue);">המנצח לוקח הכל.</div>
         </div>
         <button class="share-btn" onclick="saveAndShare()">📸 הכן תמונה לשיתוף</button>
@@ -108,98 +117,133 @@
     let lastScreen = 'home';
 
     const weeklyPrizes = [
-        // FUNNY & CHORES
+        // Chores/Funny (1-18)
         { t: "המלצר האישי", d: "הגשה בלבוש מינימלי ופנייה בכבוד של משרת.", i: "🎩" },
         { t: "נהג פרטי ליום", d: "המפסיד מסיע את המנצח לכל מקום שיבחר.", i: "🚗" },
         { t: "שומר הראש", d: "המפסיד צמוד למנצח ומבצע כל בקשה לערב שלם.", i: "🛡️" },
-        { t: "שעת שקט ממטלות", d: "שעה שבה המפסיד מבצע כל מה שהמנצח מבקש.", i: "🧹" },
+        { t: "תסרוקת/איפור מצחיק", d: "המנצח מעצב למפסיד לוק מביך למשך חצי שעה.", i: "🤡" },
         { t: "ערב סרטים VIP", d: "בחירת סרט והגשת פופקורן וארוחה ע'י המפסיד.", i: "🍿" },
-        { t: "שטיפת רכב יסודית", d: "המפסיד מקרצף את הרכב כולל פנים.", i: "🧼" },
+        { t: "שטיפת רכב יסודית", d: "קרצוף הרכב כולל ניקיון פנימי מלא.", i: "🧼" },
         { t: "פטור שבועי מכלים", d: "שבוע שלם ללא נגיעה בכיור או במדיח.", i: "🍽️" },
-        { t: "משימת הסטורי", d: "פוסט הערצה מוגזם למנצח ברשתות.", i: "📱" },
-        { t: "חיקוי של שעה", d: "המפסיד מחקה את המנצח שעה שלמה.", i: "🎭" },
-        { t: "נאום הערצה", d: "נאום מרגש על עליונות המנצח.", i: "🎤" },
-        { t: "בחירת פלייליסט", d: "המנצח שולט במוזיקה יום שלם.", i: "🎵" },
+        { t: "משימת הסטורי", d: "פוסט הערצה מוגזם למנצח ברשתות החברתיות.", i: "📱" },
+        { t: "חיקוי של שעה", d: "המפסיד מחקה את המנצח בדיבור ובתנועה.", i: "🎭" },
+        { t: "נאום הערצה", d: "נאום מרגש של 2 דקות על עליונות המנצח.", i: "🎤" },
+        { t: "שעת שקט ממטלות", d: "המפסיד מבצע כל מטלה לבקשת המנצח למשך שעה.", i: "🧹" },
+        { t: "שליט השלט", d: "שליטה מוחלטת על כל החלטה בבית ליום שלם.", i: "📺" },
         { t: "סטייליסט אישי", d: "המנצח בוחר למפסיד את הבגדים ליציאה הבאה.", i: "👗" },
         { t: "בוקר שקט", d: "המפסיד לוקח על עצמו את כל הילדים והבית בבוקר.", i: "😴" },
-        { t: "שליט השלט", d: "שליטה מוחלטת על כל החלטה בבית ליום שלם.", i: "📺" },
-        { t: "שף פרטי לערב", d: "ארוחת 3 מנות שבושלה ע'י המפסיד.", i: "👨‍🍳" },
-
-        // SEXUAL
+        { t: "תפיסת הפיקוד", d: "המנצח מחליט על כל לו'ז סוף השבוע.", i: "👑" },
+        { t: "פפראצי צמוד", d: "המפסיד מצלם 'בוק' למנצח לאורך כל היום.", i: "📸" },
+        { t: "יום הפינוק המלכותי", d: "המנצח לא קם מהספה, המפסיד דואג להכל.", i: "🤴" },
+        { t: "שירות חדרים VIP", d: "שהייה של 3 שעות במיטה עם שירות מלא של המפסיד.", i: "🏨" },
+        
+        // Intimacy (19-34)
         { t: "עיסוי חושני", d: "עיסוי גוף מלא עם שמן באווירה רגועה.", i: "🕯️" },
-        { t: "בודי מסאז'", d: "מגע עור בעור מלא עם שמן לאורך כל הגוף.", i: "🧴" },
-        { t: "מקלחת משותפת", d: "סיבון ופינוק מלא של המנצח תחת המים.", i: "🚿" },
+        { t: "בודי מסאז' (B2B)", d: "מגע עור בעור מלא עם שמן לאורך כל הגוף.", i: "🧴" },
+        { t: "מקלחת משותפת (Full)", d: "סיבון ופינוק מלא של המנצח תחת המים.", i: "🚿" },
         { t: "בחירת הלבשה תחתונה", d: "המנצח בוחר מה המפסיד ילבש בערב.", i: "👙" },
-        { t: "משחק מקדים ארוך", d: "פוקוס בלעדי על הנאת המנצח ללא הגבלה.", i: "⌛" },
+        { t: "משחק מקדים ארוך", d: "פוקוס בלעדי על הנאת המנצח ללא הגבלת זמן.", i: "⌛" },
         { t: "בוקר של פינוק", d: "סקס בוקר ביזמת המפסיד עם כל הפינוקים.", i: "☀️" },
         { t: "משחקי טמפרטורה", d: "שימוש בקוביות קרח או שעוות נרות עיסוי.", i: "🧊" },
         { t: "כיסוי עיניים", d: "גירוי חושי כשהמפסיד לא רואה דבר.", i: "🌑" },
         { t: "החלפת לוקיישן", d: "סקס בכל מקום בבית שהוא לא המיטה.", i: "🛋️" },
         { t: "לילה של 'רק אתה'", d: "ערב שלם המוקדש לעינוג המנצח בלבד.", i: "🎁" },
         { t: "אמבטיה אירוטית", d: "קצף, נרות וקרצוף חושני באמבטיה.", i: "🛁" },
-        { t: "ריקוד בלבנים", d: "ריקוד קצר בלבנים לבחירת המנצח.", i: "👠" },
-        { t: "מבחן טעימות", d: "אכילת פירות/שוקולד מעל גוף המפסיד.", i: "🍓" },
-        { t: "ספא חדר שינה", d: "אמבטיה, קרמים ועיסוי של שעה.", i: "🧼" },
-        { t: "קלפי הגורל", d: "המנצח מכין 3 פתקים, המפסיד בוחר אחד.", i: "🃏" },
         { t: "סיור בוקר אינטימי", d: "פינוק אינטימי מושקע בבוקר ללא חדירה.", i: "🌅" },
+        { t: "ספא חדר שינה", d: "אמבטיה, קרמים ועיסוי של שעה.", i: "🧴" },
+        { t: "קלפי הגורל", d: "המנצח מכין 3 פתקים, המפסיד בוחר אחד.", i: "🃏" },
+        { t: "קניות של תשוקה", d: "המנצח בוחר סט הלבשה, המפסיד קונה ולובש.", i: "🛍️" },
+        { t: "טיפול ספא מלא", d: "פילינג גוף, מסיכת פנים ועיסוי קרקפת.", i: "🧖‍♂️" },
 
-        // VERY SEXUAL & FANTASIES
+        // Bold/Fantasy/Porn (35-60)
+        { t: "כפל הנאה (Double Peak)", d: "סיבוב שני חובה (אורגזמה פעמיים בערב).", i: "🔄" },
         { t: "אוראלי לפי דרישה", d: "פינוק אוראלי מושקע וממושך לבקשת המנצח.", i: "🍭" },
         { t: "משחקי תפקידים", d: "כניסה לדמויות וסיטואציה לבחירת המנצח.", i: "🎭" },
-        { t: "שימוש באביזרים", d: "בחירת צעצוע או אביזר לשילוב במיטה.", i: "⚙️" },
         { t: "סטריפטיז פרטי", d: "ריקוד חושני והתפשטות איטית לצלילי מוזיקה.", i: "💃" },
         { t: "שליטה במיטה", d: "המנצח קובע קצב ותנוחות באופן בלעדי.", i: "⛓️" },
         { t: "ערב 'כן' מוחלט", d: "המפסיד לא אומר לא לבקשות מיניות כל הלילה.", i: "🔥" },
-        { t: "פנטזיית המדים", d: "בחירת תלבושת שהמפסיד חייב ללבוש.", i: "🧑‍✈️" },
-        { t: "קשירות קלות", d: "הגבלת המפסיד בצעיפים או אזיקים.", i: "🎀" },
-        { t: "סקס מול מראה", d: "קיום יחסי מין מול מראה גדולה.", i: "🪞" },
-        { t: "אורגזמה בשליטה", d: "הבאה לקצה (Edging) ועצירה עד לאישור.", i: "⏳" },
-        { t: "פנטזיית הזרים", d: "משחק תפקידים של זרים בבר/מסעדה.", i: "🥂" },
-        { t: "צילום אירוטי (סטילס)", d: "צילום המפסיד בפוזות חושניות לשימוש פרטי.", i: "📸" },
-        { t: "צילום סרטון חושני", d: "תיעוד אקט או סצנה חושנית של שנינו.", i: "🎥" },
+        { t: "צילום סרטון חושני", d: "תיעוד אקט או סצנה חושנית של שניכם.", i: "🎥" },
         { t: "סרט פורנו משותף", d: "המפסיד בוחר סרט וצופים בו יחד במיטה.", i: "🔞" },
         { t: "התנסות אנאלית", d: "חדירה או פינוק אנאלי לבקשת המנצח.", i: "🍑" },
-        { t: "חינוך מחדש", d: "לימוד פנטזיה חדשה ותרגולה עד שלמות.", i: "🎓" },
-        { t: "סקס במקום ציבורי", d: "אקט נועז במקום ציבורי לבחירת המנצח.", i: "🚗" },
+        { t: "סקס במקום ציבורי", d: "אקט נועז במקום ציבורי לבחירת המנצח.", i: "🌳" },
         { t: "תחת כיפת השמיים", d: "סקס בחוץ תחת הכוכבים במקום מבודד.", i: "🌌" },
         { t: "שליטה בשיא", d: "המנצח מחליט מתי המפסיד גומר.", i: "🛑" },
-        { t: "הגשמת פנטזיה", d: "הוצאה לפועל של פנטזיה שתמיד רציתם.", i: "🌠" },
-        { t: "ללא בגדים", d: "איסור בגדים מרגע הכניסה לחדר עד הבוקר.", i: "🔞" },
-        { t: "שליטה מוחלטת", d: "ביצוע כל פקודה לשעתיים רצופות.", i: "🛐" },
-        { t: "הפקת אופנה", d: "צילום סדרת תמונות נועזת בבימוי המנצח.", i: "📷" },
-        { t: "מרתון תשוקה", d: "לילה ללא שינה עד למיצוי מלא.", i: "🌕" }
+        { t: "הגשמת פנטזיה", d: "הוצאה לפועל של פנטזיה שתמיד רציתם לממש.", i: "🌠" },
+        { t: "ארוחת ערב בעירום", d: "המפסיד מבשל ומגיש ללא בגדים בלבד.", i: "🍴" },
+        { t: "ערב חמישים גוונים", d: "שימוש בכל האביזרים שיש בבית בערב אחד.", i: "🔗" },
+        { t: "אמת או חובה (Adult)", d: "חובות נועזות ושאלות אינטימיות.", i: "🎲" },
+        { t: "פנטזיית הזרים", d: "להיפגש במקום ציבורי כאילו אתם זרים מוחלטים.", i: "🥂" },
+        { t: "משחק בעירום", d: "שחמט/קלפים שבהם כל הפסד שווה להורדת פריט לבוש.", i: "🃏" },
+        { t: "שליטה במקלחת", d: "המנצח שולט בטמפרטורה, בקצב ובסיבון.", i: "🛁" },
+        { t: "משימת 'הצופה'", d: "המנצח צופה במפסיד מענג את עצמו תחת הנחיות.", i: "👁️" },
+        { t: "הקול המנחה", d: "אקט בעיניים עצומות המונחה לפי לחישות המנצח.", i: "🗣️" },
+        { t: "חשיפה הדרגתית", d: "חשיפת חלקי גוף בסיטואציה מעלה אדרנלין.", i: "⚡" },
+        { t: "רולטת קטגוריות", d: "המנצח בוחר 3 קטגוריות פורנו לצפייה מודרכת.", i: "📽️" },
+        { t: "שחזור סצנה (Remake)", d: "שחזור סצנה ספציפית מסרט פורנו.", i: "🎬" },
+        { t: "מרתון תשוקה", d: "לילה ללא שינה עד למיצוי מלא של שניכם.", i: "🌕" },
+        { t: "הפקת אופנה", d: "צילום סדרת תמונות נועזת בבימוי המנצח.", i: "📷" }
     ];
 
     const dailyPrizes = [
-        { t: "מסאז' רגליים", d: "5 דקות פינוק מול הטלוויזיה.", i: "🦶" },
-        { t: "נשיקה צרפתית", d: "דקה של נשיקה לוהטת בלי להמשיך.", i: "💏" },
-        { t: "שלוק מהיר", d: "פינוק אוראלי קצר ומרגש.", i: "🍭" },
-        { t: "מגע של דקה", d: "דקה של מגע חופשי בכל מקום שתבחר/י.", i: "🤚" },
-        { t: "לחישה אסורה", d: "לחוש משהו נועז באוזן באמצע היום.", i: "👄" },
-        { t: "יד מתחת לבגדים", d: "2 דקות של יד משוטטת בסלון.", i: "🕵️‍♂️" },
-        { t: "מסאז' קרקפת", d: "5 דקות של עיסוי ראש מרגיע.", i: "💆" },
-        { t: "קפה למיטה", d: "המפסיד מכין ומגיש למנצח מחר בבוקר.", i: "☕" },
-        { t: "וידוי אישי", d: "המפסיד מספר בפרטים על האוננות האחרונה שלו.", i: "🤫" },
-        { t: "פטור מכלים", d: "המנצח פטור מכלים לכל היום.", i: "🧼" },
-        { t: "ספאנק/צביטה", d: "אישור להפליק בטוסיק מתי שבא לך.", i: "🍑" },
-        { t: "הורדת פריט", d: "המפסיד מוריד פריט לבוש ונשאר ככה שעה.", i: "👕" },
-        { t: "נשנוש עכשיו", d: "המפסיד מכין צלחת פינוקים ברגע זה.", i: "🍓" }
+        { t: "מסאז' רגליים", d: "5 דקות פינוק מול הטלוויזיה.", i: "🦶", clean: false },
+        { t: "נשיקה צרפתית", d: "דקה של נשיקה לוהטת בלי להמשיך.", i: "💏", clean: false },
+        { t: "שלוק מהיר", d: "פינוק אוראלי קצר ומרגש.", i: "🍭", clean: false },
+        { t: "מגע של דקה", d: "דקה של מגע חופשי בכל מקום לבחירה.", i: "🤚", clean: false },
+        { t: "לחישה אסורה", d: "לחוש משהו נועז באוזן באמצע היום.", i: "👄", clean: false },
+        { t: "יד מתחת לבגדים", d: "2 דקות של יד משוטטת בזמן הטלוויזיה.", i: "🕵️", clean: false },
+        { t: "מסאז' קרקפת", d: "5 דקות של עיסוי ראש מרגיע.", i: "💆", clean: false },
+        { t: "קפה למיטה", d: "המפסיד מכין ומגיש למנצח מחר בבוקר.", i: "☕", clean: true },
+        { t: "שף לנשנוש", d: "הכנת מנה קטנה ומפנקת ברגע זה.", i: "🧀", clean: true },
+        { t: "פטור מכלים", d: "פטור מלא מפינוי או שטיפת כלים להיום.", i: "🧼", clean: true },
+        { t: "בחירת התוכן", d: "שליטה מוחלטת בשלט ובטלוויזיה לערב.", i: "📺", clean: true },
+        { t: "ספאנק/צביטה", d: "אישור להפליק בטוסיק מתי שמתחשק.", i: "🍑", clean: false },
+        { t: "הורדת פריט", d: "המפסיד מוריד פריט לבוש ונשאר ככה שעה.", i: "👕", clean: false },
+        { t: "וידוי אישי", d: "המפסיד מספר בפרטים על האוננות האחרונה.", i: "🤫", clean: false },
+        { t: "מקלחת משותפת", d: "חפיפה וסיבון מלא של המנצח.", i: "🚿", clean: false },
+        { t: "בחירת הקינוח", d: "המפסיד דואג למתוק או קינוח מושקע עכשיו.", i: "🍰", clean: true },
+        { t: "ריקוד צמוד", d: "שיר אחד, הכי קרוב שאפשר, בלי טלפונים.", i: "🎵", clean: false },
+        { t: "בחירת ארוחה", d: "המנצח בוחר מה אוכלים, המפסיד דואג להכל.", i: "🍕", clean: true },
+        { t: "ליקוק גוף", d: "המנצח בוחר מקום אחד בגוף לליקוק של דקה.", i: "👅", clean: false },
+        { t: "הלבשה נסתרת", d: "המנצח בוחר מה המפסיד ילבש מתחת לבגדים.", i: "👔", clean: false },
+        { t: "עיסוי צוואר", d: "10 דקות של שחרור מתחים ממוקד.", i: "💆‍♂️", clean: false },
+        { t: "נשיקת דייט ראשון", d: "2 דקות רצופות של נשיקה אינטנסיבית.", i: "😘", clean: false },
+        { t: "מבחן המבט", d: "דקה של קשר עין ישיר (מי שנשבר חייב נשיקה).", i: "👁️", clean: true },
+        { t: "פינוק מתחת לשולחן", d: "3 דקות של מגע חבוי בזמן ארוחה.", i: "🍱", clean: false },
+        { t: "הודעת טיזר", d: "שליחת הודעה או תמונה נועזת מהעבודה.", i: "📱", clean: false },
+        { t: "המלצת הבזק", d: "שליחת לינק לסרטון שמתאר פנטזיה למימוש.", i: "🔗", clean: false }
     ];
 
     function showWeeklySelection() {
-        const grid = document.getElementById('weekly-grid'); grid.innerHTML = '';
-        weeklyPrizes.sort((a, b) => a.t.localeCompare(b.t)).forEach(p => {
-            const card = document.createElement('div'); card.className = 'prize-card';
-            card.onclick = () => { scrollPos = window.scrollY; lastScreen = 'weekly-select'; showResult(p, "יעד שבועי גדול"); };
+        renderGrid(weeklyPrizes, "היעד השבועי", "הפרס הגדול שמחכה לכם");
+        switchScreen(null, 'list-screen');
+    }
+
+    function revealDaily(mode) {
+        let list = dailyPrizes;
+        if (mode === 'clean') {
+            list = dailyPrizes.filter(p => p.clean === true);
+        }
+        const prize = list[Math.floor(Math.random() * list.length)];
+        lastScreen = 'home';
+        showResult(prize, mode === 'clean' ? "טיזר יומי מיוחד" : "טיזר יומי לוהט");
+    }
+
+    function renderGrid(prizes, title, subtitle) {
+        document.getElementById('list-title').innerText = title;
+        document.getElementById('list-subtitle').innerText = subtitle;
+        const grid = document.getElementById('main-grid');
+        grid.innerHTML = '';
+        prizes.sort(() => Math.random() - 0.5).forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'prize-card';
+            card.onclick = () => { scrollPos = window.scrollY; lastScreen = 'list-screen'; showResult(p, title); };
             card.innerHTML = `<span class="p-icon">${p.i}</span><span class="p-name">${p.t}</span>`;
             grid.appendChild(card);
         });
-        switchScreen(null, 'weekly-select');
     }
 
-    function revealDaily() { lastScreen = 'home'; showResult(dailyPrizes[Math.floor(Math.random()*dailyPrizes.length)], "טיזר יומי למנצח"); }
-
     function showResult(p, label) {
+        document.getElementById('res-label').innerText = label;
         document.getElementById('res-icon').innerText = p.i;
         document.getElementById('res-title').innerText = p.t;
         document.getElementById('res-desc').innerText = p.d;
@@ -208,24 +252,25 @@
 
     function handleBack() {
         switchScreen('share-screen', lastScreen);
-        if (lastScreen === 'weekly-select') setTimeout(() => window.scrollTo(0, scrollPos), 20);
+        if (lastScreen === 'list-screen') setTimeout(() => window.scrollTo(0, scrollPos), 20);
     }
+
+    function goToHome() { switchScreen(null, 'home'); }
 
     function switchScreen(from, to) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(to).classList.add('active');
-        if (to !== 'share-screen' && to !== 'weekly-select') window.scrollTo(0,0);
+        if (to === 'home') window.scrollTo(0,0);
     }
 
     function saveAndShare() {
-        html2canvas(document.getElementById('capture-area'), { backgroundColor: '#050010', scale: 2 }).then(canvas => {
+        const area = document.getElementById('capture-area');
+        html2canvas(area, { backgroundColor: '#050010', scale: 2 }).then(canvas => {
             const imgData = canvas.toDataURL("image/png");
             const newWin = window.open();
             newWin.document.write('<body style="background:#050010; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0;"><img src="' + imgData + '" style="max-width:90%; border:3px solid #ffcc00; border-radius:20px;"><h2 style="color:white; font-family:sans-serif; margin-top:20px;">לחיצה ארוכה על התמונה לשמירה</h2><button onclick="window.close()" style="margin-top:20px; padding:15px 30px; background:#00d4ff; border:none; border-radius:50px; font-weight:bold; cursor:pointer;">חזור למשחק</button></body>');
         });
     }
-
-    showWeeklySelection(); switchScreen(null, 'home');
 </script>
 </body>
 </html>
